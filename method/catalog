@@ -1,0 +1,97 @@
+swagger: "2.0"
+info:
+  description: "Catalog for a bookstore."
+  version: "1.0.0"
+  title: "Catalog"
+  contact:
+    email: "dev@gb.ry"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "gb.ru"
+basePath: "/v1"
+
+paths:
+  /catalog:
+    get:
+      tags:
+      - "catalog"
+      summary: "getCatalog"
+      description: "Get list of books"
+      operationId: "getCatalog"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "author"
+        in: "query"
+        description: "Author for filter"
+        required: false
+        type: "string"
+      responses:
+        "200":
+          description: "Successful"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Book"
+        "400":
+          description: "Error"
+      security:
+      - api_key: []
+  /book:
+    post:
+      tags:
+      - "catalog"
+      summary: "update books"
+      description: "Update existing boor or create new one."
+      operationId: "updateBook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "book"
+        in: "body"
+        description: "New book"
+        required: true
+        schema: 
+          $ref: "#/definitions/Book"
+      responses:
+        "200":
+          description: "Successful"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Book"
+        "400":
+          description: "Error"
+      security:
+      - api_key: []
+      
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+    
+definitions:
+  Book:
+    type: "object"
+    properties:
+      bookID:
+        type: "string"
+      name:
+        type: "string"
+      book_image:
+        type: "string"
+      book_description:
+        type: "string"
+      authorID:
+        type: "number"
+      categoryID: 
+        type: "number"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
